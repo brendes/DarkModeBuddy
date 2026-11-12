@@ -14,32 +14,15 @@ struct SettingsView: View {
 
     private let darknessInterval: ClosedRange<Double> = 0...30000
 
-    // Slider geometry: 80% of the track covers 0...6000 (fine control over the
-    // useful indoor range), the remaining 20% covers 6000...30000 for bright
-    // rooms and direct daylight.
-    private let darknessSliderBreakpointPosition: Double = 0.8
-    private let darknessSliderBreakpointValue: Double = 6000
-
+    // Use a logarithmic scale so sliding over lower values feels less sensitive
+    // as you approach the low end of the spectrum. value = (max+1)^position - 1
+    // over the range.
     private func value(forSliderPosition position: Double) -> Double {
-        let bp = darknessSliderBreakpointPosition
-        let bv = darknessSliderBreakpointValue
-        let maxV = darknessInterval.upperBound
-        if position <= bp {
-            return (position / bp) * bv
-        } else {
-            return bv + ((position - bp) / (1 - bp)) * (maxV - bv)
-        }
+        pow(darknessInterval.upperBound + 1, position) - 1
     }
 
     private func sliderPosition(forValue value: Double) -> Double {
-        let bp = darknessSliderBreakpointPosition
-        let bv = darknessSliderBreakpointValue
-        let maxV = darknessInterval.upperBound
-        if value <= bv {
-            return (value / bv) * bp
-        } else {
-            return bp + ((value - bv) / (maxV - bv)) * (1 - bp)
-        }
+        log(value + 1) / log(darknessInterval.upperBound + 1)
     }
 
     private var darknessThresholdSliderBinding: Binding<Double> {

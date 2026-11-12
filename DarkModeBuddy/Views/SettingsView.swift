@@ -80,14 +80,23 @@ struct SettingsView: View {
                                 settings.darknessThreshold = newValue
                                 isEditingAmbientLightLevelManually = false
                             })
-                            .frame(maxWidth: 40)
+                            .textFieldStyle(.roundedBorder)
+                            .font(.system(size: 12, weight: .medium).monospacedDigit())
+                            .frame(width: 60)
                         } else {
                             Text("\(settings.darknessThreshold.formattedNoFractionDigits)")
                                 .font(.system(size: 12, weight: .medium).monospacedDigit())
-                                .onTapGesture(count: 2) {
+                                .padding(.vertical, 2)
+                                .padding(.horizontal, 5)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .strokeBorder(Color(NSColor.separatorColor), lineWidth: 1)
+                                )
+                                .onTapGesture {
                                     self.editingAmbientLightManuallyTextFieldStore = "\(settings.darknessThreshold.formattedNoFractionDigits)"
                                     isEditingAmbientLightLevelManually = true
                                 }
+                                .help("Click to edit")
                         }
                     }
                     .alert(isPresented: $isShowingDarknessValueOutOfBoundsAlert) {

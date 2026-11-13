@@ -32,8 +32,3 @@ Below is a non-exhaustive list of Mac models that have been verified to work wit
 
 Pull requests adding support to hardware that's not currently supported are more than welcome.
 
-# Download
-
-DarkModeBuddy is available for free (it's also open-source). If you prefer, you can pay any amount you'd like in order to support my work.
-
-[You can always get the latest build on Gumroad](https://darkmodebuddy.app).
